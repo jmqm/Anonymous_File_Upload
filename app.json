@@ -27,10 +27,6 @@
       },
       "package": "com.jmqm.Anonymous_File_Upload"
     },
-    "androidNavigationBar": {
-        "barStyle": "dark-content",
-        "backgroundColor": "#FFFFFF"
-    },
     "web": {
       "favicon": "./assets/favicon.png"
     }
