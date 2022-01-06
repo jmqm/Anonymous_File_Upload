@@ -1,42 +1,80 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Caption } from "react-native-paper";
+import { Button } from "react-native-paper";
 import * as DocumentPicker from "expo-document-picker";
+import theme from "src/theme";
 
 const InputComponent = () => {
     const [file, setFile] = useState<DocumentPicker.DocumentResult>();
 
-    const uploadFile = async () => {
+    const clearFile = () => setFile(undefined);
+
+    const selectFile = async () => {
         const result = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: false });
 
         if (result.type === "success") {
-            setFile(result);
+            setFile(result)
         }
+    }
+
+    const uploadFile = async () => {
+        alert("upload button pressed.");
     }
 
     return (
         <View style={styles.root}>
+            {file && (
+                <Button
+                    style={styles.clear}
+                    mode="outlined"
+                    uppercase={false}
+                    onPress={clearFile}
+                    icon="close"
+                    compact={true}
+                >
+                </Button>
+            )}
+
             <Button
+                style={styles.select}
                 mode="outlined"
                 uppercase={false}
-                onPress={uploadFile}
+                onPress={selectFile}
             >
+                {/* TypeScript - Have to do '=== "success"' check or else linter complains like a baby. */}
                 {file?.type === "success" ? file.name : "Tap here to upload a file"}
             </Button>
 
-            <Caption style={styles.caption}>{file && "Tap again to change file"}</Caption>
+            {file && (
+                <Button
+                    style={styles.upload}
+                    mode="contained"
+                    uppercase={false}
+                    onPress={uploadFile}
+                    icon="upload"
+                    compact={true}
+                >
+                </Button>
+            )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     root: {
-        flex: 1,
-        margin: 24,
+        marginVertical: 36,
+        marginHorizontal: 24,
+        flexDirection: "row",
         alignItems: "center"
     },
-    caption: {
-        marginTop: 8
+    clear: {
+        marginRight: theme.spacing
+    },
+    select: {
+        flex: 1
+    },
+    upload: {
+        marginLeft: theme.spacing
     }
 });
 

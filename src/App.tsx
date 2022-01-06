@@ -47,8 +47,7 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.background2
     },
     bottom: {
-        flexGrow: 1,
-        marginVertical: 12
+        flexGrow: 1
     }
 });
 

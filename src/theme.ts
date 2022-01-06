@@ -4,7 +4,8 @@ const theme: ReactNativePaper.Theme = {
     ...DarkTheme,
     dark: true,
 
-    roundness: 4,
+    roundness: 14,
+    spacing: 12,
 
     colors: {
         ...DarkTheme.colors,
@@ -23,9 +24,9 @@ declare global {
         }
   
         // Used in root of theme.
-        // interface Theme {
-        //     myOwnProperty: boolean;
-        // }
+        interface Theme {
+            spacing: number;
+        }
     }
 }
 
