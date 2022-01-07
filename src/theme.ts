@@ -16,18 +16,4 @@ const theme: ReactNativePaper.Theme = {
     }
 }
 
-declare global {
-    namespace ReactNativePaper {
-        // Used in theme.colors.
-        interface ThemeColors {
-            background2: string;
-        }
-  
-        // Used in root of theme.
-        interface Theme {
-            spacing: number;
-        }
-    }
-}
-
 export default theme;

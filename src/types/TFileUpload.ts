@@ -1,6 +1,6 @@
 type TFileUpload = {
-    filename: string,
-    url: string
+    filename: string;
+    url: string;
 }
 
 export default TFileUpload;

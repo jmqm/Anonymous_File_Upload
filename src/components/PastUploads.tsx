@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, View, StyleSheet, Share, Text } from "react-native"
+import { FlatList, View, StyleSheet, Share, Vibration } from "react-native"
 import { IconButton, List } from "react-native-paper";
 import TFileUpload from "src/types/TFileUpload";
 import * as Clipboard from "expo-clipboard";
@@ -18,11 +18,24 @@ const PastUploadsComponent = () => {
     const renderItem = (_item: any) => {
         const item = _item as TFileUpload;
 
-        const copy = () => Clipboard.setString(item.url);
-        const share = async () => await Share.share({ message: item.url })
+        const _delete = () => {
+            Vibration.vibrate(25);
+            // Another function call here.
+        };
+
+        const share = async () =>{
+            Vibration.vibrate(25);
+            await Share.share({ message: item.url });
+        };
+
+        const copy = () => {
+            Vibration.vibrate(25);
+            Clipboard.setString(item.url);
+        };
 
         const buttons = () => (
             <View style={styles.buttons}>
+                <IconButton onPress={_delete} icon="delete" />
                 <IconButton onPress={share} icon="share" />
                 <IconButton onPress={copy} icon="content-copy" />
             </View>
@@ -43,7 +56,7 @@ const PastUploadsComponent = () => {
     return (
         <View style={styles.root}>
             <FlatList
-                data={fileUploads}
+                data={fileUploads.reverse()}
                 keyExtractor={(item) => item.url}
                 renderItem={({ item }: any) => renderItem(item)}
                 overScrollMode="never"

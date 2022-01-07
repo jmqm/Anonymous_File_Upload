@@ -3,9 +3,11 @@ import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 import * as DocumentPicker from "expo-document-picker";
 import theme from "src/theme";
+import { upload } from "src/services/anonFiles";
 
 const InputComponent = () => {
     const [file, setFile] = useState<DocumentPicker.DocumentResult>();
+    const [uploading, setUploading] = useState<boolean>(false);
 
     const clearFile = () => setFile(undefined);
 
@@ -18,12 +20,23 @@ const InputComponent = () => {
     }
 
     const uploadFile = async () => {
-        alert("upload button pressed.");
+        // TypeScript thing.
+        if (file?.type !== "success") {
+            return;
+        }
+
+        setUploading(true);
+
+        const response = await upload(file);
+
+        setUploading(false);
+        setFile(undefined);
     }
 
     return (
         <View style={styles.root}>
-            {file && (
+            {/* Visible if there is a file and not uploading. */}
+            {(file && !uploading) && (
                 <Button
                     style={styles.clear}
                     mode="outlined"
@@ -35,16 +48,20 @@ const InputComponent = () => {
                 </Button>
             )}
 
+            {/* Disabled if uploading. */}
             <Button
                 style={styles.select}
                 mode="outlined"
                 uppercase={false}
                 onPress={selectFile}
+                disabled={uploading}
             >
                 {/* TypeScript - Have to do '=== "success"' check or else linter complains like a baby. */}
                 {file?.type === "success" ? file.name : "Tap here to upload a file"}
             </Button>
 
+            {/* Visible if there is a file.
+                Uploading - disabled, make loading. */}
             {file && (
                 <Button
                     style={styles.upload}
@@ -53,6 +70,8 @@ const InputComponent = () => {
                     onPress={uploadFile}
                     icon="upload"
                     compact={true}
+                    disabled={uploading}
+                    loading={uploading}
                 >
                 </Button>
             )}
