@@ -3,10 +3,10 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import { setBackgroundColorAsync, setButtonStyleAsync } from "expo-navigation-bar";
-import Header from "src/components/Header";
-import Input from "src/components/Input";
+import Header from "src/components/main/Header";
+import Input from "src/components/main/Input";
 import theme from "src/theme";
-import PastUploads from "src/components/PastUploads";
+import PastUploads from "src/components/main/PastUploads";
 
 const MainScreen = () => {
     const alternateColor = () => theme.dark ? "light" : "dark";
