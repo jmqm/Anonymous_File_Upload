@@ -1,7 +1,7 @@
 <h2 align="center">Anonymous File Upload</h3>
 <p align="center">Created by jmqm · Using AnonFiles.com</p>
 
-<p align="center">ㅤ</p>
+ㅤ
 
 ## About
 An unofficial mobile version of AnonFiles.com.
