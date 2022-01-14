@@ -1,19 +1,12 @@
 import { memo, useState } from "react";
-import { FlatList, View, StyleSheet, Share, Vibration } from "react-native"
+import { FlatList, View, StyleSheet, Share, Vibration, Alert } from "react-native"
 import { IconButton, List } from "react-native-paper";
 import TFileUpload from "src/types/TFileUpload";
 import * as Clipboard from "expo-clipboard";
+import useFileUploads from "src/providers/fileUploads/useFileUploads";
 
 const PastUploadsComponent = () => {
-    const fileUploads: TFileUpload[] = [];
-    for (let index = 0; index < 10; index++) {
-        const fileUpload = {
-            filename: `The File ${index}`,
-            url: `https://anonfiles.com/thefile${index}`
-        } as TFileUpload;
-
-        fileUploads.push(fileUpload);
-    }
+    const { fileUploads, onDelete } = useFileUploads();
 
     const renderItem = (_item: any) => {
         const item = _item as TFileUpload;
@@ -26,18 +19,35 @@ const PastUploadsComponent = () => {
         //#region Buttons
         
         const DeleteIcon = () => {
-            const defaultIcon = "delete";
-            const [icon, setIcon] = useState<string>(defaultIcon);
-
-            const handleOnPress = async () => {
+            const handleOnPress = () => {
                 vibrate();
-                // Function here.
 
-                setTimeout(() => setIcon(defaultIcon), timeout)
-                setIcon("check");
+                const filename = item.filename.length > 30
+                    ? item.filename.substring(0, 29) + "..."
+                    : item.filename;
+
+                Alert.alert(
+                    "Remove Confirmation",
+                    `Are you sure you want to remove ${filename}?` +
+                        "\n\nThe file will not be deleted, only removed from this list.",
+                    [
+                        {
+                            text: "Cancel",
+                            style: "cancel",
+                        },
+                        {
+                            text: "Remove",
+                            style: "default",
+                            onPress: () => {
+                                onDelete(item);
+                            }
+                        }
+                    ]
+                )
+
             };
 
-            return (<IconButton onPress={handleOnPress} icon={icon} />);
+            return (<IconButton onPress={handleOnPress} icon="delete" />);
         };
         
         const ShareIcon = () => {
@@ -91,11 +101,11 @@ const PastUploadsComponent = () => {
             />
         )
     }
-    
+
     return (
         <View style={styles.root}>
             <FlatList
-                data={fileUploads.reverse()}
+                data={fileUploads}
                 keyExtractor={(item) => item.url}
                 renderItem={({ item }: any) => renderItem(item)}
                 overScrollMode="never"

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView, StyleSheet, View } from "react-native";
-import { Provider as PaperProvider } from "react-native-paper";
 import { setBackgroundColorAsync, setButtonStyleAsync } from "expo-navigation-bar";
 import Header from "src/components/main/Header";
 import Input from "src/components/main/Input";
@@ -21,22 +20,20 @@ const MainScreen = () => {
     }, []);
 
     return (
-        <PaperProvider theme={theme}>
-            <SafeAreaView style={styles.root}>
-                <StatusBar
-                    translucent={false}
-                    style={alternateColor()}
-                    backgroundColor={theme.colors.background}
-                />
+        <SafeAreaView style={styles.root}>
+            <StatusBar
+                translucent={false}
+                style={alternateColor()}
+                backgroundColor={theme.colors.background}
+            />
 
-                <Header />
+            <Header />
 
-                <View style={styles.bottom}>
-                    <Input />
-                    <PastUploads />
-                </View>
-            </SafeAreaView>
-        </PaperProvider>
+            <View style={styles.bottom}>
+                <Input />
+                <PastUploads />
+            </View>
+        </SafeAreaView>
     );
 };
 

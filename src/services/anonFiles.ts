@@ -36,17 +36,24 @@ const sendXmlHttpRequest = async (data: any, url: string): Promise<TFileUploadRe
                 return;
             }
     
-            if (xhr.status === 200) {
-                resolve({
-                    success: true,
-                    message: JSON.parse(xhr.responseText).data.file.url.short
-                } as TFileUploadResponse);
-            } else {
-                reject({
-                    success: false,
-                    message: `Request Failed: ${xhr.responseText}`
-                } as TFileUploadResponse);
-            }
+            resolve({
+                success: xhr.status === 200,
+                message: xhr.status === 200
+                    ? JSON.parse(xhr.responseText).data.file.url.short
+                    : `Request Failed: ${xhr.responseText}`
+            } as TFileUploadResponse);
+
+            // if (xhr.status === 200) {
+            //     resolve({
+            //         success: true,
+            //         message: JSON.parse(xhr.responseText).data.file.url.short
+            //     } as TFileUploadResponse);
+            // } else {
+            //     reject({
+            //         success: false,
+            //         message: `Request Failed: ${xhr.responseText}`
+            //     } as TFileUploadResponse);
+            // }
         };
 
         xhr.open("POST", url);
