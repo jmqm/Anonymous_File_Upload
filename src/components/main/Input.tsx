@@ -33,6 +33,8 @@ const InputComponent = () => {
 
         const response = await upload(file);
 
+        setUploading(false);
+
         if (response.success) {
             const newFileUpload = {
                 filename: file.name,
@@ -44,8 +46,6 @@ const InputComponent = () => {
         } else {
             Alert.alert("", "Could not upload file.\r\nTry again later.");
         }
-
-        setUploading(false);
     }
 
     return (

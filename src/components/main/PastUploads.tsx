@@ -22,8 +22,8 @@ const PastUploadsComponent = () => {
             const handleOnPress = () => {
                 vibrate();
 
-                const filename = item.filename.length > 30
-                    ? item.filename.substring(0, 29) + "..."
+                const filename = item.filename.length > 27
+                    ? `${item.filename.substring(0, 24)}...`
                     : item.filename;
 
                 Alert.alert(
@@ -58,7 +58,7 @@ const PastUploadsComponent = () => {
                 vibrate();
                 await Share.share({ message: item.url });
 
-                setTimeout(() => setIcon(defaultIcon), timeout)
+                setTimeout(() => setIcon(defaultIcon), timeout);
                 setIcon("check");
             };
 
