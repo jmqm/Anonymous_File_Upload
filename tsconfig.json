@@ -10,7 +10,7 @@
     "strict": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
-    
+
     "baseUrl": "./",
     "paths": {
       "src/*": [ "src/*" ],

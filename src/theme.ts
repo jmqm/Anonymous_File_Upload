@@ -12,7 +12,7 @@ const theme: ReactNativePaper.Theme = {
         
         primary: "#9fc6df",
         background: "#566168",
-        background2: "#3c4347"
+        background2: "#3c4347" // Also used in app.json.
     }
 }
 
