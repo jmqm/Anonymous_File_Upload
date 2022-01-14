@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import { FlatList, View, StyleSheet, Share, Vibration, Alert } from "react-native"
+import { FlatList, View, StyleSheet, Share, Vibration, Alert, Linking } from "react-native";
 import { IconButton, List } from "react-native-paper";
 import TFileUpload from "src/types/TFileUpload";
 import * as Clipboard from "expo-clipboard";
@@ -12,24 +12,24 @@ const PastUploadsComponent = () => {
         const item = _item as TFileUpload;
         const timeout = 1250;
 
+        const filename = item.filename.length > 27
+            ? `${item.filename.substring(0, 24)}...`
+            : item.filename;
+
+        //#region Buttons
+
         const vibrate = () => {
             Vibration.vibrate(25)
         };
 
-        //#region Buttons
-        
         const DeleteIcon = () => {
             const handleOnPress = () => {
                 vibrate();
 
-                const filename = item.filename.length > 27
-                    ? `${item.filename.substring(0, 24)}...`
-                    : item.filename;
-
                 Alert.alert(
                     "Remove Confirmation",
-                    `Are you sure you want to remove ${filename}?` +
-                        "\n\nThe file will not be deleted, only removed from this list.",
+                    `Are you sure you want to remove ${filename}?\r\n\r\n` +
+                        "The file will not be deleted, only removed from this list.",
                     [
                         {
                             text: "Cancel",
@@ -43,8 +43,7 @@ const PastUploadsComponent = () => {
                             }
                         }
                     ]
-                )
-
+                );
             };
 
             return (<IconButton onPress={handleOnPress} icon="delete" />);
@@ -90,6 +89,28 @@ const PastUploadsComponent = () => {
 
         //#endregion
 
+        const handleOnPress = () => {
+            vibrate();
+
+            Alert.alert(
+                "Open Confirmation",
+                `Open ${filename} in your browser?`,
+                [
+                    {
+                        text: "Cancel",
+                        style: "cancel",
+                    },
+                    {
+                        text: "Open",
+                        style: "default",
+                        onPress: () => {
+                            Linking.openURL(item.url);
+                        }
+                    }
+                ]
+            );
+        };
+
         return (
             <List.Item
                 key={item.url}
@@ -97,10 +118,11 @@ const PastUploadsComponent = () => {
                 description={item.url}
                 titleNumberOfLines={1}
                 descriptionNumberOfLines={1}
+                onPress={handleOnPress}
                 right={buttons}
             />
-        )
-    }
+        );
+    };
 
     return (
         <View style={styles.root}>
@@ -111,8 +133,8 @@ const PastUploadsComponent = () => {
                 overScrollMode="never"
             />
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     root: {
