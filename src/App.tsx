@@ -10,4 +10,4 @@ const App = () => {
     );
 };
 
-export default registerRootComponent(App);
+registerRootComponent(App);
