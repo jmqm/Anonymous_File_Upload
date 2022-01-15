@@ -18,18 +18,12 @@ const PastUploadsComponent = () => {
 
         //#region Buttons
 
-        const vibrate = () => {
-            Vibration.vibrate(25)
-        };
-
         const DeleteIcon = () => {
             const handleOnPress = () => {
-                vibrate();
-
                 Alert.alert(
                     "Remove Confirmation",
                     `Are you sure you want to remove ${filename}?\r\n\r\n` +
-                        "The file will not be deleted, only removed from this list.",
+                        "The file will not be deleted, only removed from the list.",
                     [
                         {
                             text: "Cancel",
@@ -48,13 +42,12 @@ const PastUploadsComponent = () => {
 
             return (<IconButton onPress={handleOnPress} icon="delete" />);
         };
-        
+
         const ShareIcon = () => {
             const defaultIcon = "share";
             const [icon, setIcon] = useState<string>(defaultIcon);
 
             const handleOnPress = async () => {
-                vibrate();
                 await Share.share({ message: item.url });
 
                 setTimeout(() => setIcon(defaultIcon), timeout);
@@ -69,7 +62,7 @@ const PastUploadsComponent = () => {
             const [icon, setIcon] = useState<string>(defaultIcon);
 
             const handleOnPress = () => {
-                vibrate();
+                Vibration.vibrate(25)
                 Clipboard.setString(item.url);
 
                 setTimeout(() => setIcon(defaultIcon), timeout)
@@ -90,8 +83,6 @@ const PastUploadsComponent = () => {
         //#endregion
 
         const handleOnPress = () => {
-            vibrate();
-
             Alert.alert(
                 "Open Confirmation",
                 `Open ${filename} in your browser?`,
