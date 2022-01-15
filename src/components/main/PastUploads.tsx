@@ -69,7 +69,7 @@ const PastUploadsComponent = () => {
                 setIcon("check");
             };
 
-            return (<IconButton onPress={handleOnPress} icon={icon} />);
+            return (<IconButton onPress={handleOnPress} icon={icon} disabled={icon != defaultIcon} />);
         };
 
         const buttons = () => (
